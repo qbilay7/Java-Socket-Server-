@@ -1,0 +1,43 @@
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.Scanner;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+
+public class clientcode {
+    public static void main(String[] args) {
+        try {
+            Socket cln = new Socket("localhost", 555);
+            Scanner sc = new Scanner(System.in);
+            Scanner ss = new Scanner(cln.getInputStream());
+            PrintWriter p = new PrintWriter(cln.getOutputStream(), true);
+            System.out.println(ss.nextLine());
+            System.out.println(ss.nextLine());
+            p.println(sc.nextLine());
+            p.println(sc.nextLine());
+            System.out.println(ss.nextLine());
+
+            while (true) {
+                String input = sc.nextLine();
+                if (input.equals("quit")) {
+                    p.println(input);
+                    System.out.println(ss.nextLine());
+                    break;
+                } else {
+                    p.println(input);
+                    System.out.println(ss.nextLine());
+                }
+            }
+
+            sc.close();
+            p.close();
+
+            cln.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
